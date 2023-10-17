@@ -1,0 +1,51 @@
+﻿@model IEnumerable<RestaurantBackendWebsite.Models.Entities.User>
+
+@{
+    ViewBag.Title = "管理者總檔";
+}
+
+<h2>管理者總檔</h2>
+
+<p>
+    @Html.ActionLink("新增管理者", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Account)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>*@
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Enabled)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Account)
+        </td>
+        @*<td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>*@
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Enabled)
+        </td>
+        <td>
+            @Html.ActionLink("編輯", "Edit", new { id = item.Id }) |
+            @Html.ActionLink("明細", "Detail", new { id = item.Id }) |
+            @Html.ActionLink("刪除", "Delete", new { id = item.Id })
+        </td>
+    </tr>
+}
+
+</table>

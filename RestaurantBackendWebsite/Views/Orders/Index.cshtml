@@ -1,0 +1,214 @@
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<RestaurantBackendWebsite.Models.ViewModels.OrderVm>
+@Styles.Render("~/Content/css")
+@Styles.Render("~/Content/Order.css")
+@Styles.Render("~/Content/PagedList.css")
+
+@{
+    ViewBag.Title = "訂單查詢";
+}
+<div class="container-fluid title">
+    <h2 class="titleword">訂單查詢</h2>
+    <form action="/Orders/Index" method="get" class="d-flex justify-content-between">
+        <div>
+            <label for="orderbytime">顯示順序:時間</label>
+            <select name="orderbytime" id="orderbytime">
+                <option value="0" @(ViewBag.orderbytime == 0 ? "selected" : "")></option>
+                <option value="1" @(ViewBag.orderbytime == 1 ? "selected" : "")>按照日期近到遠</option>
+                <option value="2" @(ViewBag.orderbytime == 2 ? "selected" : "")>按照日期遠到近</option>
+            </select>
+            <label for="orderbymoney">顯示順序:金額</label>
+            <select name="orderbymoney" id="orderbymoney">
+                <option value="0" @(ViewBag.orderbymoney == 0 ? "selected" : "")></option>
+                <option value="1" @(ViewBag.orderbymoney == 1 ? "selected" : "")>按照金額大到小</option>
+                <option value="2" @(ViewBag.orderbymoney == 2 ? "selected" : "")>按照金額小到大</option>
+            </select>
+            <label for="name">會員姓名</label>
+            <input type="text" name="name" id="name" value="@(!string.IsNullOrEmpty(ViewBag.name) ? ViewBag.name : "")" />
+            <label for="phone">會員電話</label>
+            <input type="text" name="phone" id="phone" value="@(!string.IsNullOrEmpty(ViewBag.phone) ? ViewBag.phone : "")" />
+            <label for="time">預約時間</label>
+            <input type="date" name="time" id="time" value="@(ViewBag.time != null ? ((DateTime)ViewBag.time).ToString("yyyy-MM-dd") : "")" />
+            <label for="iscancel">是否取消</label>
+            <select name="iscancel" id="iscancel">
+                <option value="0" @(ViewBag.iscancel == 0 ? "selected" : "")></option>
+                <option value="1" @(ViewBag.iscancel == 1 ? "selected" : "")>無取消</option>
+                <option value="2" id="cancel" @(ViewBag.iscancel == 2 ? "selected" : "")>取消</option>
+            </select>
+            <label for="isrefund" class="isrefund">是否退訂金</label>
+            <select name="isrefund" id="isrefund">
+                <option value="0" @(ViewBag.isrefund == 0 ? "selected" : "")></option>
+                <option value="1" @(ViewBag.isrefund == 1 ? "selected" : "")>不退訂金</option>
+                <option value="2" @(ViewBag.isrefund == 2 ? "selected" : "")>退訂金</option>
+            </select>
+        </div>
+        <div>
+            <input type="submit" name="get" value="查詢" class="btn btn-find" />
+        </div>
+    </form>
+    <button class="btn btnClean">清空條件</button>
+    <div class="line"></div>
+</div>
+
+
+
+<table class="table container">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().ReservationTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().OrderTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().MemberName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().TableNums)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().AdvancePayment)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Diners)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().TotalPrice)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().IsCancel)
+
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().IsRefund)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstOrDefault().PhoneNumber)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReservationTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MemberName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TableNums)
+            </td>
+            <td>
+                NT @Html.DisplayFor(modelItem => item.AdvancePayment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Diners)
+            </td>
+            <td>
+                NT @Html.DisplayFor(modelItem => item.TotalPrice)
+            </td>
+            <td>
+                @if (item.IsCancel == true)
+                {
+                    <span>是</span>
+                }
+                else
+                {
+                    <span>否</span>
+                }
+            </td>
+            <td>
+                @if (item.IsRefund == true)
+                {
+                    <span>是</span>
+                }
+                else
+                {
+                    <span>否</span>
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.ActionLink("明細", "OrderItems", new { id = item.Id }, new { @class = "btn btnOrderItems" })
+            </td>
+        </tr>
+    }
+
+</table>
+<div class="pagination-container d-flex justify-content-center">
+    <ul class="pagination">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new
+        {
+            page
+        ,
+            name = Request.QueryString["name"],
+       phone = Request.QueryString["phone"],
+       time = Request.QueryString["time"],
+       iscancel = Request.QueryString["iscancel"],
+       isrefund = Request.QueryString["isrefund"],
+       orderbytime = Request.QueryString["orderbytime"],
+       orderbymoney = Request.QueryString["orderbymoney"],
+
+
+
+   }), new PagedListRenderOptions
+   {
+       DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+       DisplayLinkToLastPage = PagedListDisplayMode.Always,
+       DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+       DisplayLinkToNextPage = PagedListDisplayMode.Always,
+       MaximumPageNumbersToDisplay = 3
+   })
+    </ul>
+</div>
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script>
+
+        $(function () {
+            $("#iscancel").change(function () {
+                var selectedValue = $(this).val();
+                console.log(selectedValue)
+                if (selectedValue == 2) {
+                    $("#isrefund").css("display", "inline-block");
+                    $(".isrefund").css("display", "inline-block");
+                }
+                else {
+                    $("#isrefund").css("display", "none");
+                    $(".isrefund").css("display", "none");
+
+                }
+
+            });
+            if ($("#iscancel").val() == 2) {
+                $("#isrefund").css("display", "inline-block");
+                $(".isrefund").css("display", "inline-block");
+                $("#iscancel").find("option[value=2]").attr("selected", "selected");
+            }
+            if ($("#iscancel").val() == 1) {
+                $("#iscancel").find("option[value=1]").attr("selected", "selected");
+            }
+            if ($("#isrefund").val() == 2) {
+                $("#isrefund").find("option[value=2]").attr("selected", "selected");
+            }
+            if ($("#isrefund").val() == 1) {
+                $("#isrefund").find("option[value=1]").attr("selected", "selected");
+            }
+            $(".btnClean").click(function () {
+                window.location.href = "/Orders/Index";
+            })
+
+
+
+        });
+    </script>
+}

@@ -1,0 +1,122 @@
+﻿@model RestaurantBackendWebsite.Models.ViewModels.MealIndexVM
+
+@{
+    ViewBag.Title = "刪除餐點";
+}
+
+<h2>刪除餐點</h2>
+
+@*<h3>你確定要刪除嗎?</h3>*@
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CategoryId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MealsImage)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MealsImage)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedDate)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("Delete", "Meals", FormMethod.Post, new { id = "form1" }))
+    {
+
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color text-end ">
+            <input onclick="showAlert()" type="button" value="刪除" class="btn btn-primary" />
+            @Html.ActionLink("回到餐點清單頁", "Index", null, new { @class = "btn btn-success" })
+        </div>
+    }
+</div>
+@section css {
+    <style>
+        .alert {
+            height: 65px;
+        }
+    </style>
+}
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const showAlert = () => {
+            Swal.fire({
+                title: '你確定嗎?',
+                text: "您將無法恢復此筆餐點資料!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '是的，確定刪除!',
+                cancelButtonText: '取消'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    var form = document.getElementById("form1");
+                    form.submit();
+
+                }
+            });
+        }
+
+    </script>
+}

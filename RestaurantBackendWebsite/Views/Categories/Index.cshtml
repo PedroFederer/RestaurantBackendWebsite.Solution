@@ -1,0 +1,72 @@
+﻿@model IEnumerable<RestaurantBackendWebsite.Models.ViewModels.CategoryVM>
+
+@{
+    ViewBag.Title = "維護菜單分類";
+}
+
+<h2>維護菜單分類</h2>
+
+<p>
+    @Html.ActionLink("新增分類", "Create", null, new { @class = "btn btn-primary " })
+</p>
+<table id="sortable" class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DisplayOrder)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </th>
+
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr id="sortable">
+            <td>
+                @Html.DisplayFor(modelItem => item.DisplayOrder)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+
+            <td class="options">
+                <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary btn-sm">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                    編輯
+                </a>
+
+                <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger btn-sm">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    刪除
+                </a>
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+@Styles.Render("~/Content/Category.css")
+@section scripts{
+    <script>
+        $(function () {
+            $("#sortable").sortable();
+        });
+    </script>
+}

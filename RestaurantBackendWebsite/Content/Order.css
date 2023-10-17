@@ -1,0 +1,50 @@
+﻿
+#isrefund, .isrefund {
+    display: none;
+    color: #000;
+}
+
+#iscancel, #orderbytime, #orderbymoney {
+    color: #000;
+}
+
+option {
+    color: #000;
+}
+
+input {
+    color: #000;
+}
+
+.btnOrderItems {
+    background: linear-gradient( #003D79, #4e73df) !important;
+    color: #fff;
+    padding: 0px;
+    width: 50px;
+    text-align: center;
+}
+
+.btn-find {
+    background: linear-gradient(#003D79, #4e73df) !important;
+    color: #fff;
+    font-weight: 900;
+}
+
+.title {
+    background-color: #D2E9FF;
+    padding-bottom: 20px;
+    padding-top: 30px;
+}
+
+.line {
+    margin-top: 40px;
+    width: 100%;
+    background-color: #003D79;
+    height: 20px;
+}
+
+.btnClean {
+    background: linear-gradient(#003D79, #4e73df) !important;
+    color: #fff;
+    font-weight: 900;
+}

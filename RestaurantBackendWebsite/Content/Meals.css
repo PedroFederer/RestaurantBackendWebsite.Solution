@@ -1,0 +1,44 @@
+﻿h2 {
+    font-weight: 600;
+}
+
+.body-content
+.table td, .table th {
+    border: 1px solid #ddd;
+    /*width: auto; */
+    /* text-align: center;*/
+}
+
+.table th {
+    text-align: center;
+    background-color: #cacaca;
+}
+
+
+.table .options {
+    white-space: nowrap;
+    width: 10px;
+}
+
+.form-control {
+    margin-top: 15px;
+    margin-left: 10px;
+}
+
+.form-control {
+    width: 200px;
+}
+
+.new-meals {
+    margin-top: 15px;
+    text-align: end;
+}
+
+.pagination {
+    margin-top: 15px;
+}
+
+.form-check-input {
+    width: 16px;
+    height: 16px;
+}

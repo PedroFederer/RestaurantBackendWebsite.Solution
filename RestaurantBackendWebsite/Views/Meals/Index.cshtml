@@ -1,0 +1,123 @@
+﻿@using RestaurantBackendWebsite.Repositories;
+@model IEnumerable<RestaurantBackendWebsite.Models.ViewModels.MealIndexVM>
+
+@{
+    ViewBag.Title = "維護餐點清單";
+}
+
+<h2>維護餐點清單</h2>
+
+<form method="get">
+    餐點名稱 :<input type="text" name="name" class="form-control form-control-sm" style="display:inline-block;" value="@(ViewBag.criteria)" />
+    <input type="submit" name="btn" id="btn" value="搜尋" class="btn btn-sm btn-success" style="display: inline-block;">
+    <input type="reset" name="btn" id="btn" value="重置" class="btn btn-sm btn-success" style="display: inline-block;">
+</form>
+
+<p class="new-meals">
+    @Html.ActionLink("新增餐點", "Create", null, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Price)
+            </td>
+
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td class="options">
+                <a href="@Url.Action("Edit", new { id = item.Id })" class="btn btn-primary btn-sm">
+                    <i class="glyphicon glyphicon-pencil"></i>
+                    編輯
+                </a>
+
+                <a href="@Url.Action("Delete", new { id = item.Id })" class="btn btn-danger btn-sm">
+                    <i class="glyphicon glyphicon-trash"></i>
+                    刪除
+                </a>
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="container">
+    <div class="row">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center" id="paginationBS5">
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+@Styles.Render("~/Content/Meals.css")
+@section scripts{
+    <script src="/Scripts/WAPagination.js"></script>
+    @{
+        var paginationInfo = ViewBag.PaginationInfo as PaginationInfo;
+        <div>total:@paginationInfo.Total</div>
+    }
+    <script>
+        let current = @(paginationInfo.PageIndex);
+        let pageSize = @(paginationInfo.PageSize);
+        let showPages = 5;
+        let total = @(paginationInfo.Total);
+
+        let options = Pagination.getDefaultOptions();
+        options.total = total;
+        options.current = current;
+        options.pageSize = pageSize;
+        options.showPages = showPages;
+        options.containerSelector = "#paginationBS5";
+
+        options.urlTemplate = `/Meals/Index?name=@(ViewBag.criteria)&pageIndex={page}&pageSize=${options.pageSize}`;
+        let pagination = new Pagination().render(options);
+
+
+    </script>
+}
